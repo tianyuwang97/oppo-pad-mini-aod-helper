@@ -1,0 +1,10 @@
+app/build/
+dist/
+__pycache__/
+*.pyc
+*.p12
+*.jks
+*.keystore
+*.idsig
+.env
+local.properties
