@@ -37,4 +37,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create v1.2-coloros103-test dist/OPPO-AOD-Helper.apk --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "ColorOS 17.0.0.103 compatibility test" --notes "Test-only build signed with a different key than v1.1. Do not uninstall your existing app without a way to restore ADB grants. ColorOS 103 functionality is not yet device-verified." --prerelease
+          gh release create v1.2-coloros103-sidebyside dist/OPPO-AOD-Helper.apk --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "ColorOS 17.0.0.103 compatibility test" --notes "Test-only build signed with a different key than v1.1. Do not uninstall your existing app without a way to restore ADB grants. ColorOS 103 functionality is not yet device-verified." --prerelease
