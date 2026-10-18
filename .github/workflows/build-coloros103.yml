@@ -1,0 +1,32 @@
+name: Build ColorOS 103 test APK
+on:
+  workflow_dispatch:
+  push:
+    branches: [v1.2-coloros103]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - name: Install Android SDK
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+      - name: Create temporary test signing key
+        run: |
+          keytool -genkeypair -noprompt -storetype PKCS12 -keystore /tmp/aod-test.p12 -alias aodhelper -storepass "$AOD_KEYSTORE_PASSWORD" -keypass "$AOD_KEYSTORE_PASSWORD" -keyalg RSA -keysize 3072 -validity 365 -dname "CN=AOD Compatibility Test"
+        env:
+          AOD_KEYSTORE_PASSWORD: test-only-not-for-production-2026
+      - name: Build signed test APK
+        run: |
+          python scripts/build.py --java-home "$JAVA_HOME" --android-jar "$ANDROID_HOME/platforms/android-35/android.jar" --build-tools "$ANDROID_HOME/build-tools/35.0.0" --keystore /tmp/aod-test.p12 --alias aodhelper
+        env:
+          AOD_KEYSTORE_PASSWORD: test-only-not-for-production-2026
+      - uses: actions/upload-artifact@v4
+        with:
+          name: OPPO-AOD-Helper-ColorOS103-TEST
+          path: dist/OPPO-AOD-Helper.apk
+          retention-days: 14
