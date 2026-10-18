@@ -30,7 +30,8 @@ final class AodControl {
         String missing = missingPermission(c);
         if (!missing.isEmpty()) throw new Exception(missing);
         if (!"OPD2515".equals(Build.MODEL)) throw new Exception("当前工具仅适用于 OPPO Pad Mini OPD2515。");
-        if (enabled && !"OPD2515_17.0.0.102(CN01)".equals(Build.DISPLAY))
+        if (enabled && !"OPD2515_17.0.0.102(CN01)".equals(Build.DISPLAY)
+                && !"OPD2515_17.0.0.103(CN01)".equals(Build.DISPLAY))
             throw new Exception("此系统版本尚未验证，请先检查兼容性。恢复默认功能仍可使用。\n" + Build.DISPLAY);
         String output = run(new String[]{"/system/bin/dumpsys", "activity", "service",
                 "com.android.systemui/.keyguard.KeyguardService", "debug", "keep_aod_on", enabled ? "1" : "0"});
